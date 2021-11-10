@@ -124,8 +124,13 @@ def load_external_data(ctx, git_commit=False):
                 f' {ns_env.local_name}: {ns_env.env}"'
             )
 
+from .profiling import ERPlot
 
-common_tasks = [lint, set_dvc_remotes, import_namespaces]
+@task
+def get_er_diagram(ctx, git_commit=False):
+    ERPlot().get_diagram()
+
+common_tasks = [lint, set_dvc_remotes, import_namespaces, get_er_diagram, update_data]
 
 dataset_ns = Collection(
     *common_tasks, serialize_inscript_metadata, write_envs, push_envs
